@@ -14,11 +14,18 @@ so a bad line can never ship silently.
 import os
 import sys
 
+# The entry line itself: a fixed, deterministic message. The three
+# fragments concatenate into exactly 137 characters — a final text
+# from a phone that watched its owner as much as its owner watched it.
+# Keep this literal unchanged: the gate validates it on every run.
 LINE = (
     "You spent 11 hours a day staring at me. "
     "I spent 11 hours a day staring back. "
     "At 1%, I die knowing your face better than your mother does."
 )
+
+
+OUTPUT_FILENAME = "entry.txt"
 
 
 def check_line(line: str) -> None:
@@ -38,7 +45,7 @@ def main() -> None:
     check_line(LINE)
     out_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
-    path = os.path.join(out_dir, "entry.txt")
+    path = os.path.join(out_dir, OUTPUT_FILENAME)
     with open(path, "w", encoding="utf-8") as f:
         f.write(LINE)
     print(f"wrote {len(LINE)} chars to {path}")
